@@ -7,11 +7,21 @@ using namespace cv;
 
 struct kpsdes_s extractFeatures(Mat frame)
 {
-    Ptr<ORB> orb = ORB::create(4000);
-    struct kpsdes_s kpsdes;
+    vector<Point2f> pts;
+    goodFeaturesToTrack(frame, pts, 3000, 0.01, 7);
 
-    orb->detect(frame, kpsdes.kps);
-    orb->compute(frame, kpsdes.kps, kpsdes.des);
+    vector<KeyPoint> kps;
+    for (int i = 0; i < pts.size(); i++) {
+        kps.push_back(KeyPoint(pts[i].x, pts[i].y, 20));
+    }
+
+    Mat des;
+    Ptr<ORB> orb = ORB::create();
+    orb->compute(frame, kps, des);
+
+    struct kpsdes_s kpsdes;
+    kpsdes.kps = kps;
+    kpsdes.des = des;
 
     return kpsdes;
 }

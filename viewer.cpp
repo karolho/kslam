@@ -13,6 +13,7 @@ using namespace cv;
 extern Mat dbg_frame;
 
 extern vector<Frame> frames;
+extern vector<Point3D> points;
 
 void runViewer()
 {
@@ -22,7 +23,7 @@ void runViewer()
     glEnable(GL_DEPTH_TEST);
     
     pangolin::OpenGlRenderState s_cam(
-        pangolin::ProjectionMatrix(1280, 960, 420, 420, 640, 480, 0.2, 100),
+        pangolin::ProjectionMatrix(1280, 960, 420, 420, 640, 480, 0.2, 1000),
         pangolin::ModelViewLookAt(-2, 2, -2, 0, 0, 0, pangolin::AxisY)
     );
 
@@ -80,8 +81,18 @@ void runViewer()
             glVertex3f(-1, -0.75, 0.6);
             glVertex3f(1, -0.75, 0.6);
             glEnd();
-
         }
+
+        glPopMatrix();
+
+        glPushMatrix();
+        
+        glBegin(GL_POINTS);
+        for (int i = 0; i < points.size(); i++) {
+            Point3f loc = points[i].getLoc();
+            glVertex3f(loc.x, loc.y, loc.z);
+        }
+        glEnd();
         
         glPopMatrix();
 
