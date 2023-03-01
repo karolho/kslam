@@ -1,5 +1,5 @@
 # kslam
-Experimental ORB feature based visual simultaneous localization and mapping (SLAM)
+Experimental ORB feature based SLAM (simultaneous localization and mapping)
 
 ## Build
 ```
@@ -9,7 +9,8 @@ make
 Requires OpenCV and Pangolin
 
 ## TODO
-- point triangulation
+- better outlier filtering
 - bundle adjustment
+- optimize memory usage
 - stereo camera support
 - visual-inertial odometry
